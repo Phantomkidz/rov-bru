@@ -15,11 +15,11 @@
               <v-row justify="center">
                 <v-col class="d-flex align-center" cols="10">
                   <v-icon class="mr-5" color="rgb(203, 50, 50)">fas fa-key</v-icon>
-                  <v-text-field label="Password" color="rgb(203, 50, 50)"></v-text-field>
+                  <v-text-field label="Password" type="password" color="rgb(203, 50, 50)"></v-text-field>
                 </v-col>
               </v-row>
               <v-row justify="center" class="pb-5">
-                <v-btn class="font-weight-bold" color="rgb(203, 50, 50)" dark>เข้าสู่ระบบ</v-btn>
+                <v-btn @click="login" class="font-weight-bold" color="rgb(203, 50, 50)" dark>เข้าสู่ระบบ</v-btn>
               </v-row>
             </div>
           </v-card>
@@ -31,7 +31,13 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  methods: {
+    login() {
+      this.$store.commit('SET_LOGIN_STATUS', true)
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 

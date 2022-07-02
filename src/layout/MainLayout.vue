@@ -12,9 +12,18 @@
 
 <script>
 import SideBar from '@/components/menu/SideBar.vue'
-import MenuBar from '../components/menu/MenuBar.vue'
+import MenuBar from '@/components/menu/MenuBar.vue'
+import { mapGetters } from 'vuex'
 export default {
+  name: 'MainLayout',
   components: { SideBar, MenuBar },
-  data: () => ({ drawer: null })
+  created() {
+    if (!this.loggedIn) this.$router.push('/login')
+  },
+  computed: {
+    ...mapGetters({
+      loggedIn: 'getLoggedIn'
+    })
+  }
 }
 </script>

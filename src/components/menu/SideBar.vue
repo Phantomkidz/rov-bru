@@ -1,15 +1,28 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-model="sideBarStatus" app>
       <!--  -->
     </v-navigation-drawer>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'SideBar',
-  data: () => ({ drawer: null })
+  data: () => ({
+    sideBarStatus: true
+  }),
+  computed: {
+    ...mapGetters({
+      sideBar: 'getShowSideBar'
+    })
+  },
+  watch: {
+    sideBar(sideBar) {
+      this.sideBarStatus = sideBar
+    }
+  }
 }
 </script>
 
