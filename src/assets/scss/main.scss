@@ -13,17 +13,8 @@
   .row {
     margin: 0;
   }
-}
-.v-data-table {
-  .v-data-table__wrapper {
-    table {
-      thead {
-        tr {
-          th {
-            font-size: 1.5rem;
-          }
-        }
-      }
-    }
+
+  .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
+    font-size: 180px;
   }
 }
