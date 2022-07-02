@@ -22,6 +22,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      // key : 'value'
       loggedIn: 'getLoggedIn'
     })
   }

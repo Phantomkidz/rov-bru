@@ -9,6 +9,11 @@ import '@/assets/scss/main.scss'
 
 Vue.config.productionTip = false
 
+import axios from './axios'
+
+Vue.prototype.$axios = axios
+
+
 new Vue({
   icons: {
     iconfont: 'fa',

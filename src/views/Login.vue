@@ -9,13 +9,13 @@
               <v-row justify="center">
                 <v-col class="d-flex align-center" cols="10">
                   <v-icon class="mr-5" color="rgb(203, 50, 50)">fas fa-user</v-icon>
-                  <v-text-field label="Username" color="rgb(203, 50, 50)"> </v-text-field>
+                  <v-text-field v-model="username" label="Username" color="rgb(203, 50, 50)"> </v-text-field>
                 </v-col>
               </v-row>
               <v-row justify="center">
                 <v-col class="d-flex align-center" cols="10">
                   <v-icon class="mr-5" color="rgb(203, 50, 50)">fas fa-key</v-icon>
-                  <v-text-field label="Password" type="password" color="rgb(203, 50, 50)"></v-text-field>
+                  <v-text-field v-model="password" label="Password" type="password" color="rgb(203, 50, 50)"></v-text-field>
                 </v-col>
               </v-row>
               <v-row justify="center" class="pb-5">
@@ -30,13 +30,32 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Login',
+  data: () => ({
+    username: '',
+    password: ''
+  }),
+  created() {
+    if (this.loggedIn) this.$router.push('/')
+  },
   methods: {
     login() {
-      this.$store.commit('SET_LOGIN_STATUS', true)
-      this.$router.push('/')
+      if (this.username === 'admin' && this.password === '123456') {
+        this.$store.commit('SET_LOGIN_STATUS', true)
+        this.$router.push('/')
+      } else {
+        alert('Password ไม่ถูกต้อง')
+      }
     }
+  },
+  computed: {
+    ...mapGetters({
+      // key : 'value'
+      loggedIn: 'getLoggedIn'
+    })
   }
 }
 </script>
