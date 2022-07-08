@@ -24,7 +24,33 @@ const routes = [
       {
         path: '/school',
         name: 'school',
-        component: () => import('../views/school/SchoolList')
+        component: () => import('../views/school/SchoolList.vue')
+      },
+      {
+        path: '/team',
+        name: 'team',
+        component: () => import('../views/team/TeamList.vue')
+      },
+      {
+        path: '/hero',
+        name: 'hero',
+        component: () => import('../views/Heroes/HeroesList.vue')
+      }
+      ,
+      {
+        path: '/player',
+        name: 'player',
+        component: () => import('../views/player/PlayerList.vue')
+      },
+      {
+        path: '/match-results',
+        name: 'match-results',
+        component: () => import('../views/match_results/MatchResultList.vue')
+      },
+      {
+        path: '/match-detail/:id',
+        name: 'match-detail',
+        component: () => import('../views/match_results/MatchDetail.vue')
       }
 
     ]

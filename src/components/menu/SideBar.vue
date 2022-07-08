@@ -26,9 +26,10 @@ export default {
     sideBarStatus: true,
     items: [
       ['fas fa-school', 'School', 'school'],
-      ['fas fa-users', 'Team'],
-      ['fas fa-crown', 'Hero'],
-      ['fas fa-poll', 'Match Result']
+      ['fas fa-users', 'Team', 'team'],
+      ['fas fa-user', 'Player', 'player'],
+      ['fas fa-crown', 'Hero', 'hero'],
+      ['fas fa-poll', 'Match Result', 'match-results']
     ]
   }),
   computed: {

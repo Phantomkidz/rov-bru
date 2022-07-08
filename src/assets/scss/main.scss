@@ -13,8 +13,16 @@
   .row {
     margin: 0;
   }
-
   .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr > th {
-    font-size: 180px;
+    font-size: 23px;
+    color: black;
+    font-weight: normal;
   }
+  .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+    color: black;
+    font-size: 15px;
+  }
+}
+.search-text-field {
+  width: 400px;
 }

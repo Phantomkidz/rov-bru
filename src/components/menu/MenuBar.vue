@@ -2,10 +2,8 @@
   <div>
     <v-app-bar app>
       <v-app-bar-nav-icon @click="showSideBar"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>Application</v-toolbar-title>
-
-      <v-btn @click="logout">logout</v-btn>
+      <v-spacer></v-spacer>
+      <v-btn @click="logout" color="warning">logout</v-btn>
     </v-app-bar>
   </div>
 </template>
