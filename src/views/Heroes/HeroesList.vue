@@ -11,7 +11,7 @@
               <v-text-field v-model="search" width="200px" append-icon="mdi-magnify" label="Search" hide-details></v-text-field>
             </div>
             <v-spacer></v-spacer>
-
+            <v-btn color="primary" @click="exportToExcel()" dark class="mb-2 mr-2"> ออกรายงาน </v-btn>
             <v-btn color="primary" @click="openPopup('create')" dark class="mb-2"> เพิ่มฮีโร่ </v-btn>
           </v-toolbar>
         </template>
@@ -31,6 +31,8 @@
 <script>
 import HeroesForm from './HeroesForm.vue'
 import ChangeAction from '@/components/ChangeAction.vue'
+import * as XLSX from 'xlsx'
+import moment from 'moment'
 
 export default {
   name: 'HeroesList',
@@ -84,6 +86,13 @@ export default {
         console.log(error.response.data.message)
       })
       await this.getPlayer()
+    },
+    exportToExcel() {
+      const fileName = 'heroesList' + moment().format('YYYY-MM-DD') + '.xls'
+      const ws = XLSX.utils.json_to_sheet(this.heroesList)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, ws, 'heroesList')
+      XLSX.writeFile(wb, fileName)
     }
   }
 }

@@ -11,6 +11,7 @@
               <v-text-field v-model="search" width="200px" append-icon="mdi-magnify" label="Search" hide-details></v-text-field>
             </div>
             <v-spacer></v-spacer>
+            <v-btn color="primary" @click="exportToExcel()" dark class="mb-2 mr-2"> ออกรายงาน </v-btn>
             <v-btn color="primary" @click="openPopup('create')" dark class="mb-2"> เพิ่มข้อมูลทีม </v-btn>
           </v-toolbar>
         </template>
@@ -30,6 +31,8 @@
 <script>
 import TeamForm from './TeamForm.vue'
 import ChangeAction from '@/components/ChangeAction.vue'
+import * as XLSX from 'xlsx'
+import moment from 'moment'
 
 export default {
   name: 'TeamList',
@@ -79,11 +82,17 @@ export default {
       })
       await this.getTeam()
     },
-
     openPopup(process, pk = '') {
       this.process = process
       this.pk = pk
       this.dialog = true
+    },
+    exportToExcel() {
+      const fileName = 'teamList' + moment().format('YYYY-MM-DD') + '.xls'
+      const ws = XLSX.utils.json_to_sheet(this.teamList)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, ws, 'teamList')
+      XLSX.writeFile(wb, fileName)
     }
   }
 }

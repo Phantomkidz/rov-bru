@@ -2,8 +2,8 @@
   <div>
     <div class="mt-12">
       <v-card>
-        <v-row justify="center" class="red lighten-1"
-          ><div class="team-name-header">ทีม {{ redTeam.length > 0 ? redTeam[0].teamName : '' }}</div>
+        <v-row justify="center" class="red lighten-1">
+          <div class="team-name-header">ทีม {{ redTeam.length > 0 ? redTeam[0].teamName : '' }}</div>
         </v-row>
         <v-simple-table>
           <template v-slot:default>

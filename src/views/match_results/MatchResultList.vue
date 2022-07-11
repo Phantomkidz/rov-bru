@@ -11,7 +11,7 @@
               <v-text-field v-model="search" width="200px" append-icon="mdi-magnify" label="Search" hide-details></v-text-field>
             </div>
             <v-spacer></v-spacer>
-
+            <v-btn color="primary" @click="exportToExcel()" dark class="mb-2 mr-2"> ออกรายงาน </v-btn>
             <v-btn color="primary" @click="openPopup('create')" dark class="mb-2"> เพิ่มข้อมูลผลการแข่ง </v-btn>
           </v-toolbar>
         </template>
@@ -34,6 +34,8 @@
 <script>
 import MatchResultForm from './MatchResultForm.vue'
 import ChangeAction from '@/components/ChangeAction.vue'
+import * as XLSX from 'xlsx'
+import moment from 'moment'
 
 export default {
   name: 'MatchResultList',
@@ -93,6 +95,31 @@ export default {
       this.process = process
       this.pk = pk
       this.dialog = true
+    },
+    async exportToExcel() {
+      let exportMatchResult = this.matchResultList.map(data => {
+        return {
+          matchId: data.matchId,
+          matchDate: data.matchDate,
+          matchGameName: data.matchGameName,
+          matchRound: data.matchRound,
+          redTeam: data.redTeam.teamName,
+          scoreRedTeam: data.scoreRedTeam,
+          blueTeam: data.blueTeam.teamName,
+          scoreBlueTeam: data.scoreBlueTeam,
+          matchWinner: data.matchWinner
+        }
+      })
+      let response = await this.$axios.get('match-detail')
+      let matchDetailList = response.data.results
+
+      const fileName = 'matchResultList' + moment().format('YYYY-MM-DD') + '.xls'
+      const resultws = XLSX.utils.json_to_sheet(exportMatchResult)
+      const detailws = XLSX.utils.json_to_sheet(matchDetailList)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, resultws, 'matchResultList')
+      XLSX.utils.book_append_sheet(wb, detailws, 'matchDetailList')
+      XLSX.writeFile(wb, fileName)
     }
   }
 }
