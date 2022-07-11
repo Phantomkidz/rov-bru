@@ -3,7 +3,7 @@
     <v-card>
       <form @submit.prevent="saveData()">
         <v-card-title class="justify-center">
-          <span class="text-h5">แบบฟอร์มกรอกโรงเรียนและจังหวัด</span>
+          <span class="text-h5">แบบฟอร์มกรอกผลแข่งขัน</span>
         </v-card-title>
         <v-card-text>
           <v-container>

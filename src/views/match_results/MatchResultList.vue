@@ -63,7 +63,7 @@ export default {
         { text: 'คะแนนทีมน้ำเงิน', sortable: false, value: 'scoreBlueTeam' },
         { text: 'ทีมผู้ชนะ', sortable: false, value: 'matchWinner' },
         { text: 'เวลาเริ่มแข่ง', value: 'matchDate' },
-        { text: '', value: 'actions', sortable: false }
+        { text: '', value: 'actions', sortable: false, width: '22%' }
       ]
     }
   },

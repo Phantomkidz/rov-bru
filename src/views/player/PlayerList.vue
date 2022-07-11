@@ -53,11 +53,11 @@ export default {
           sortable: false,
           value: 'playerName'
         },
-        { text: 'ชื่อในเกม', value: 'playerIngameName' },
-        { text: 'ตำแหน่งผู้เล่น', value: 'playerPosition' },
+        { text: 'ชื่อในเกม', value: 'playerIngameName', sortable: false },
+        { text: 'ตำแหน่งผู้เล่น', value: 'playerPosition', sortable: false },
         { text: 'ชื่อทีม', value: 'teamName' },
         { text: 'ชื่อโรงเรียน', value: 'schoolName' },
-        { text: 'ชื่อจังหวัด', value: 'schoolCity' },
+        { text: 'ชื่อจังหวัด', value: 'schoolCity', sortable: false },
         { text: '', value: 'actions', sortable: false }
       ]
     }

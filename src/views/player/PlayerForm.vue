@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   name: 'PlayerForm',
   props: {
@@ -71,8 +72,9 @@ export default {
   }),
   async mounted() {
     const response = await this.$axios.get('team')
+    let sortTeam = _.orderBy(response.data.results, ['teamName'], ['asc'])
     console.log(response)
-    this.dropDownTeam = response.data.results.map(data => {
+    this.dropDownTeam = sortTeam.map(data => {
       return {
         name: data.teamName,
         id: data.teamId

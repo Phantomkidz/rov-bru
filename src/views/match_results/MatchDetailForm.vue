@@ -109,6 +109,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 export default {
   name: 'MatchDetailForm',
   props: {
@@ -117,6 +118,15 @@ export default {
     },
     process: {
       default: 'edit'
+    },
+    redTeam: {
+      default: []
+    },
+    blueTeam: {
+      default: []
+    },
+    teamType: {
+      default: ''
     }
   },
   data: () => ({
@@ -130,16 +140,47 @@ export default {
     amountDead: null,
     amountAssist: null,
     money: null,
-    score: null
+    score: null,
+    sortHero: []
   }),
+  computed: {
+    redTeamHero() {
+      return this.redTeam.map(data => data.heroName)
+    },
+    blueTeamHero() {
+      return this.blueTeam.map(data => data.heroName)
+    }
+  },
+
   async mounted() {
     const response = await this.$axios.get('hero')
-    this.dropDownHero = response.data.results.map(data => {
+    this.sortHero = _.orderBy(response.data.results, ['heroName', 'asc'])
+
+    let filterHero = this.sortHero.filter(item => {
+      let check = false
+
+      if (this.teamType === 'R' && this.redTeamHero.includes(item.heroName)) {
+        check = false
+      } else if (this.teamType === 'R') {
+        check = true
+      }
+      if (this.teamType === 'B' && this.blueTeamHero.includes(item.heroName)) {
+        check = false
+      } else if (this.teamType === 'B') {
+        check = true
+      }
+
+      return check
+    })
+    this.dropDownHero = filterHero.map(data => {
       return {
         name: data.heroName,
         id: data.heroId
       }
     })
+    if (this.process === 'edit') {
+      this.getData()
+    }
   },
   methods: {
     saveData() {
@@ -167,6 +208,29 @@ export default {
           }
         }
       })
+    },
+    async getData() {
+      let response = await this.$axios.get('match-detail/one/' + this.id).catch(() => {})
+      let defaultData = response.data.results
+      this.makeDamage = defaultData.makeDamage
+      this.getDamage = defaultData.getDamage
+      this.teamFight = defaultData.teamFight
+      this.amountKill = defaultData.amountKill
+      this.amountDead = defaultData.amountDead
+      this.amountAssist = defaultData.amountAssist
+      this.money = defaultData.money
+      this.score = defaultData.score
+
+      if (defaultData.heroId) {
+        let getHero = this.sortHero.find(({ heroId }) => heroId === defaultData.heroId)
+        let originHero = {
+          id: getHero.heroId,
+          name: getHero.heroName
+        }
+        this.dropDownHero.push(originHero)
+        this.heroSelect = originHero
+        this.dropDownHero = _.orderBy(this.dropDownHero, ['name', 'asc'])
+      }
     }
   }
 }

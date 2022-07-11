@@ -2,27 +2,33 @@
   <div>
     <div class="mt-12">
       <v-card>
+        <v-row justify="center" class="red lighten-1"
+          ><div class="team-name-header">ทีม {{ redTeam.length > 0 ? redTeam[0].teamName : '' }}</div>
+        </v-row>
         <v-simple-table>
           <template v-slot:default>
             <thead>
-              <tr>
-                <th class="text-left">ชื่อผู้เล่น</th>
-                <th class="text-left">ชื่อในเกม</th>
-                <th class="text-left">ฮีโร่</th>
-                <th class="text-left">ดาเมจที่ทำ</th>
-                <th class="text-left">ดาเมจที่ได้รับ</th>
-                <th class="text-left">ทีมไฟต์</th>
-                <th class="text-left">ฆ่า</th>
-                <th class="text-left">ตาย</th>
-                <th class="text-left">ช่วยเหลือ</th>
-                <th class="text-left">เงิน</th>
-                <th class="text-left">คะแนน</th>
+              <tr class="red lighten-1">
+                <!-- <th class="text-left" style="width: 12%">ชื่อผู้เล่น</th> -->
+                <th class="text-left" style="width: 12%">ชื่อในเกม</th>
+                <th class="text-left" style="width: 12%">ตำแหน่ง</th>
+                <th class="text-left" style="width: 12%">ฮีโร่</th>
+                <th class="text-left" style="width: 10%">ดาเมจที่ทำ</th>
+                <th class="text-left" style="width: 10%">ดาเมจที่ได้รับ</th>
+                <th class="text-left" style="width: 10%">ทีมไฟต์</th>
+                <th class="text-left" style="width: 5%">ฆ่า</th>
+                <th class="text-left" style="width: 5%">ตาย</th>
+                <th class="text-left" style="width: 10%">ช่วยเหลือ</th>
+                <th class="text-left" style="width: 5%">เงิน</th>
+                <th class="text-left" style="width: 5%">คะแนน</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in blueTeam" :key="item.name">
-                <td>{{ item.playerName }}</td>
+              <tr v-for="item in redTeam" :key="item.name">
+                <!-- <td>{{ item.playerName }}</td> -->
                 <td>{{ item.playerIngameName }}</td>
+                <td>{{ item.playerPosition }}</td>
                 <td>{{ item.heroName }}</td>
                 <td>{{ item.makeDamage }}</td>
                 <td>{{ item.getDamage }}</td>
@@ -33,7 +39,9 @@
                 <td>{{ item.money }}</td>
                 <td>{{ item.score }}</td>
 
-                <v-btn color="warning" @click="openPopup('edit', item.matchDetailId)" class="ml-2"><v-icon small> mdi-pencil </v-icon>แก้ไข</v-btn>
+                <v-btn color="warning" @click="openPopup('edit', item.matchDetailId, item.teamType)" class="ml-2"
+                  ><v-icon small> mdi-pencil </v-icon>แก้ไข</v-btn
+                >
               </tr>
             </tbody>
           </template>
@@ -43,27 +51,33 @@
     <v-divider class="mt-12"></v-divider>
     <div>
       <v-card>
+        <v-row justify="center" class="blue lighten-1"
+          ><div class="team-name-header">ทีม {{ blueTeam.length > 0 ? blueTeam[0].teamName : '' }}</div>
+        </v-row>
         <v-simple-table>
           <template v-slot:default>
             <thead>
-              <tr>
-                <th class="text-left">ชื่อผู้เล่น</th>
-                <th class="text-left">ชื่อในเกม</th>
-                <th class="text-left">ฮีโร่</th>
-                <th class="text-left">ดาเมจที่ทำ</th>
-                <th class="text-left">ดาเมจที่ได้รับ</th>
-                <th class="text-left">ทีมไฟต์</th>
-                <th class="text-left">ฆ่า</th>
-                <th class="text-left">ตาย</th>
-                <th class="text-left">ช่วยเหลือ</th>
-                <th class="text-left">เงิน</th>
-                <th class="text-left">คะแนน</th>
+              <tr class="blue lighten-1">
+                <!-- <th class="text-left" style="width: 12%">ชื่อผู้เล่น</th> -->
+                <th class="text-left" style="width: 12%">ชื่อในเกม</th>
+                <th class="text-left" style="width: 12%">ตำแหน่ง</th>
+                <th class="text-left" style="width: 12%">ฮีโร่</th>
+                <th class="text-left" style="width: 10%">ดาเมจที่ทำ</th>
+                <th class="text-left" style="width: 10%">ดาเมจที่ได้รับ</th>
+                <th class="text-left" style="width: 10%">ทีมไฟต์</th>
+                <th class="text-left" style="width: 5%">ฆ่า</th>
+                <th class="text-left" style="width: 5%">ตาย</th>
+                <th class="text-left" style="width: 10%">ช่วยเหลือ</th>
+                <th class="text-left" style="width: 5%">เงิน</th>
+                <th class="text-left" style="width: 5%">คะแนน</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in redTeam" :key="item.name">
-                <td>{{ item.playerName }}</td>
+              <tr v-for="item in blueTeam" :key="item.name">
+                <!-- <td>{{ item.playerName }}</td> -->
                 <td>{{ item.playerIngameName }}</td>
+                <td>{{ item.playerPosition }}</td>
                 <td>{{ item.heroName }}</td>
                 <td>{{ item.makeDamage }}</td>
                 <td>{{ item.getDamage }}</td>
@@ -74,7 +88,9 @@
                 <td>{{ item.money }}</td>
                 <td>{{ item.score }}</td>
 
-                <v-btn color="warning" @click="openPopup('edit', item.matchDetailId)" class="ml-2"><v-icon small> mdi-pencil </v-icon>แก้ไข</v-btn>
+                <v-btn color="warning" @click="openPopup('edit', item.matchDetailId, item.teamType)" class="ml-2"
+                  ><v-icon small> mdi-pencil </v-icon>แก้ไข</v-btn
+                >
               </tr>
             </tbody>
           </template>
@@ -84,7 +100,16 @@
     </div>
 
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <match-detail-form @closePopup="dialog = false" @success="successDialog" v-if="dialog" :id="pk" :process="process"></match-detail-form>
+      <match-detail-form
+        @closePopup="dialog = false"
+        @success="successDialog"
+        v-if="dialog"
+        :redTeam="redTeam"
+        :blueTeam="blueTeam"
+        :id="pk"
+        :team-type="teamType"
+        :process="process"
+      ></match-detail-form>
     </v-dialog>
     <change-action @success="confirmDel" v-model="dialogDel"></change-action>
   </div>
@@ -110,7 +135,8 @@ export default {
       dialogDel: false,
       matchResultId: '',
       redTeam: [],
-      blueTeam: []
+      blueTeam: [],
+      teamType: ''
     }
   },
   async mounted() {
@@ -138,13 +164,21 @@ export default {
       })
       await this.getMatchResults()
     },
-    openPopup(process, pk = '') {
+    openPopup(process, pk = '', type) {
       this.process = process
       this.pk = pk
       this.dialog = true
+      this.teamType = type
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.team-name-header {
+  font-size: 2rem;
+  width: 200px;
+  height: 50px;
+  margin: 20px 0;
+}
+</style>
