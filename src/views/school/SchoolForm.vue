@@ -14,7 +14,7 @@
                   v-model="schoolName"
                   label="ชื่อโรงเรียน"
                   v-validate="'required'"
-                  :error-messages="errors.first('schoolName') ? 'กรุณากรอกชื่อโรงเรียน' : ''"
+                  :error-messages="errors.first('schoolName') ? 'กรุณากรอกชื่อโรงเรียน' : '' || schoolAlert"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -52,11 +52,19 @@ export default {
   },
   data: () => ({
     schoolName: '',
-    schoolCity: ''
+    schoolCity: '',
+    schoolAlert: ''
   }),
   mounted() {
     if (this.process === 'edit') {
       this.getData()
+    }
+  },
+  watch: {
+    schoolName(value) {
+      if (value) {
+        this.schoolAlert = ''
+      }
     }
   },
   methods: {
@@ -75,7 +83,7 @@ export default {
             }
             this.$emit('success')
           } catch (error) {
-            console.log(error.response.data.message)
+            this.schoolAlert = 'ชื่อโรงเรียนนี้ถูกใช้ไปแล้ว'
           }
         }
       })

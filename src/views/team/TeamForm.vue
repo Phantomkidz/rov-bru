@@ -14,7 +14,7 @@
                   v-model="teamName"
                   label="ชื่อทีม"
                   v-validate="'required'"
-                  :error-messages="errors.first('teamName') ? 'ชื่อทีม' : ''"
+                  :error-messages="errors.first('teamName') ? 'ชื่อทีม' : '' || teamAlert"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -46,6 +46,7 @@ export default {
     }
   },
   data: () => ({
+    teamAlert: '',
     teamName: '',
     dropdownSchool: [],
     schoolSelect: {}
@@ -63,6 +64,13 @@ export default {
       this.getData()
     }
   },
+  watch: {
+    teamName(value) {
+      if (value) {
+        this.teamAlert = ''
+      }
+    }
+  },
   methods: {
     saveData() {
       this.$validator.validate().then(async valid => {
@@ -73,21 +81,14 @@ export default {
               schoolId: this.schoolSelect.id
             }
             if (this.process === 'create') {
-              await this.$axios
-                .post('team', bodyData)
-                .then(result => {
-                  console.log(result)
-                })
-                .catch(err => {
-                  console.log(err)
-                })
-              console.log(bodyData)
+              await this.$axios.post('team', bodyData)
+              this.$emit('success')
             } else if (this.process === 'edit') {
               await this.$axios.put('team/' + this.id, bodyData)
+              this.$emit('success')
             }
-            this.$emit('success')
           } catch (error) {
-            console.log(error.response.data.message)
+            this.teamAlert = 'ชื่อทีมนี้ถูกใช้ไปแล้ว'
           }
         }
       })

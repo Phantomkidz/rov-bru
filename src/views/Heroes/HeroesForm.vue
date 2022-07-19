@@ -11,7 +11,7 @@
               <v-col cols="12">
                 <v-text-field
                   name="heroesName"
-                  v-model="HeroesName"
+                  v-model="heroesName"
                   label="ชื่อฮีโร่"
                   v-validate="'required'"
                   :error-messages="errors.first('heroesName') ? 'กรุณากรอกชื่อฮีโร่' : ''"
@@ -42,11 +42,19 @@ export default {
     }
   },
   data: () => ({
-    HeroesName: ''
+    heroesName: '',
+    heroesNameAlert: ''
   }),
   mounted() {
     if (this.process === 'edit') {
       this.getData()
+    }
+  },
+  watch: {
+    heroesName(value) {
+      if (value) {
+        this.heroesNameAlert = ''
+      }
     }
   },
   methods: {
@@ -55,7 +63,7 @@ export default {
         if (valid) {
           try {
             let bodyData = {
-              heroName: this.HeroesName
+              heroName: this.heroesName
             }
             if (this.process === 'create') {
               await this.$axios.post('hero', bodyData)
@@ -64,7 +72,7 @@ export default {
             }
             this.$emit('success')
           } catch (error) {
-            console.log(error.response.data.message)
+            this.heroesNameAlert = 'ชื่อฮีโร่ตัวนี้ถูกใช้ไปแล้ว'
           }
         }
       })
@@ -74,7 +82,7 @@ export default {
         console.log(error.response.data.message)
       })
       let defaultData = response.data.results
-      this.HeroesName = defaultData.heroesName
+      this.heroesName = defaultData.heroesName
     }
   }
 }

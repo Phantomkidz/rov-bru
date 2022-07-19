@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="showPage">
     <side-bar></side-bar>
     <MenuBar></MenuBar>
     <v-main>
@@ -16,9 +16,15 @@ import MenuBar from '@/components/menu/MenuBar.vue'
 import { mapGetters } from 'vuex'
 export default {
   name: 'MainLayout',
+  data() {
+    return {
+      showPage: false
+    }
+  },
   components: { SideBar, MenuBar },
-  created() {
-    if (!this.loggedIn) this.$router.push('/login')
+  async created() {
+    if (!this.loggedIn) await this.$router.push('/login')
+    this.showPage = true
   },
   computed: {
     ...mapGetters({

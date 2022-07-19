@@ -11,8 +11,8 @@
               <v-text-field v-model="search" width="200px" append-icon="mdi-magnify" label="Search" hide-details></v-text-field>
             </div>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="exportToExcel()" dark class="mb-2 mr-2"> ออกรายงาน </v-btn>
-            <v-btn color="primary" @click="openPopup('create')" dark class="mb-2"> เพิ่มข้อมูลผลการแข่ง </v-btn>
+            <v-btn color="success" @click="exportToExcel()" dark class="mb-2 mr-2"><v-icon>mdi-microsoft-excel </v-icon> ออกรายงาน </v-btn>
+            <v-btn color="primary" @click="openPopup('create')" dark class="mb-2"><v-icon>mdi-plus-thick</v-icon> เพิ่มข้อมูลผลการแข่ง </v-btn>
           </v-toolbar>
         </template>
         <template v-slot:[`item.actions`]="{ item }">
