@@ -9,6 +9,9 @@
           <v-container>
             <v-row>
               <v-col cols="12">
+                <v-select v-model="playerSelect" :items="dropdownPlayer" item-text="name" item-value="id" label="เลือกผู้เล่น" return-object> </v-select>
+              </v-col>
+              <v-col cols="12">
                 <v-select v-model="heroSelect" :items="dropDownHero" item-text="name" item-value="id" label="เลือกฮีโร่" return-object> </v-select>
               </v-col>
               <v-col cols="12">
@@ -127,9 +130,18 @@ export default {
     },
     teamType: {
       default: ''
+    },
+    playerRedTeam: {
+      default: () => [],
+      type: Array
+    },
+    playerBlueTeam: {
+      default: () => [],
+      type: Array
     }
   },
   data: () => ({
+    dropdownPlayer: [],
     dropDownHero: [],
     heroSelect: {},
     heroId: null,
@@ -141,7 +153,8 @@ export default {
     amountAssist: null,
     money: null,
     score: null,
-    sortHero: []
+    sortHero: [],
+    playerSelect: {}
   }),
   computed: {
     redTeamHero() {
@@ -149,6 +162,12 @@ export default {
     },
     blueTeamHero() {
       return this.blueTeam.map(data => data.heroName)
+    },
+    redTeamPlayer() {
+      return this.redTeam.map(data => data.playerId)
+    },
+    blueTeamPlayer() {
+      return this.blueTeam.map(data => data.playerId)
     }
   },
 
@@ -169,7 +188,6 @@ export default {
       } else if (this.teamType === 'B') {
         check = true
       }
-
       return check
     })
     this.dropDownHero = filterHero.map(data => {
@@ -188,6 +206,7 @@ export default {
         if (valid) {
           try {
             let bodyData = {
+              playerId: this.playerSelect.id,
               heroId: this.heroSelect.id,
               makeDamage: this.makeDamage,
               getDamage: this.getDamage,
@@ -199,7 +218,6 @@ export default {
               score: this.score ? parseFloat(this.score) : 0
             }
             if (this.process === 'edit') {
-              console.log(bodyData)
               await this.$axios.put('match-detail/' + this.id, bodyData)
             }
             this.$emit('success')
@@ -220,6 +238,19 @@ export default {
       this.amountAssist = defaultData.amountAssist
       this.money = defaultData.money
       this.score = defaultData.score
+
+      if (this.teamType === 'R') {
+        this.dropdownPlayer = this.playerRedTeam.filter(item => !this.redTeamPlayer.includes(item.id) || item.id === defaultData.playerId)
+      }
+
+      if (this.teamType === 'B') {
+        this.dropdownPlayer = this.playerBlueTeam.filter(item => !this.blueTeamPlayer.includes(item.id) || item.id === defaultData.playerId)
+      }
+
+      if (defaultData.playerId) {
+        let team = this.teamType === 'R' ? this.playerRedTeam : this.playerBlueTeam
+        this.playerSelect = team.find(({ id }) => id === defaultData.playerId)
+      }
 
       if (defaultData.heroId) {
         let getHero = this.sortHero.find(({ heroId }) => heroId === defaultData.heroId)

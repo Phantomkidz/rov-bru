@@ -109,6 +109,8 @@
         :id="pk"
         :team-type="teamType"
         :process="process"
+        :playerRedTeam="playerRedTeam"
+        :playerBlueTeam="playerBlueTeam"
       ></match-detail-form>
     </v-dialog>
     <change-action @success="confirmDel" v-model="dialogDel"></change-action>
@@ -136,23 +138,34 @@ export default {
       matchResultId: '',
       redTeam: [],
       blueTeam: [],
-      teamType: ''
+      teamType: '',
+      playerRedTeam: [],
+      playerBlueTeam: []
     }
   },
   async mounted() {
     this.matchResultId = this.$route.params.id
-    await this.getMatchResults()
+    await this.getMatch()
   },
   methods: {
-    async getMatchResults() {
-      const response = await this.$axios.get('match-detail/' + this.matchResultId)
-      this.matchDetail = response.data.results
+    async getMatch() {
+      const [responseDetail, responseResult] = await Promise.all([
+        this.$axios.get('match-detail/' + this.matchResultId),
+        this.$axios.get('match-result/' + this.matchResultId)
+      ])
+      this.playerRedTeam = responseResult.data.results.redTeam.players.map(data => {
+        return { id: data.playerId, name: data.playerInGameName }
+      })
+      this.playerBlueTeam = responseResult.data.results.blueTeam.players.map(data => {
+        return { id: data.playerId, name: data.playerInGameName }
+      })
+      this.matchDetail = responseDetail.data.results
       this.blueTeam = this.matchDetail.filter(data => data.teamType === 'B')
       this.redTeam = this.matchDetail.filter(data => data.teamType === 'R')
     },
     async successDialog() {
       this.dialog = false
-      await this.getMatchResults()
+      await this.getMatch()
     },
     delMatchResult(id) {
       this.dialogDel = true
@@ -162,7 +175,7 @@ export default {
       await this.$axios.delete('match-result/' + this.pk).catch(error => {
         console.log(error.response.data.message)
       })
-      await this.getMatchResults()
+      await this.getMatch()
     },
     openPopup(process, pk = '', type) {
       this.process = process

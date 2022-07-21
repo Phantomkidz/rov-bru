@@ -23,7 +23,7 @@
                   v-model="playerIngameName"
                   label="ชื่อในเกม"
                   v-validate="'required'"
-                  :error-messages="errors.first('playerIngameName') ? 'กรุณากรอกชื่อในเกม' : ''"
+                  :error-messages="errors.first('playerIngameName') ? 'กรุณากรอกชื่อในเกม' : '' || playerAlert"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -68,12 +68,12 @@ export default {
     playerIngameName: '',
     playerPosition: '',
     dropDownTeam: [],
-    selectTeam: {}
+    selectTeam: {},
+    playerAlert: ''
   }),
   async mounted() {
     const response = await this.$axios.get('team')
     let sortTeam = _.orderBy(response.data.results, ['teamName'], ['asc'])
-    console.log(response)
     this.dropDownTeam = sortTeam.map(data => {
       return {
         name: data.teamName,
@@ -82,6 +82,13 @@ export default {
     })
     if (this.process === 'edit') {
       this.getData()
+    }
+  },
+  watch: {
+    playerIngameName(value) {
+      if (value) {
+        this.playerAlert = ''
+      }
     }
   },
 
@@ -103,7 +110,7 @@ export default {
             }
             this.$emit('success')
           } catch (error) {
-            console.log(error.response.data.message)
+            this.playerAlert = 'ชื่อนี้ถูกใช้ไปแล้ว'
           }
         }
       })

@@ -165,7 +165,6 @@ export default {
               matchWinner: this.matchWinner.name,
               matchDate: moment(this.datetime).format('YYYY-MM-DD')
             }
-            console.log(bodyData)
             if (this.process === 'create') {
               await this.$axios.post('match-result', bodyData)
             } else if (this.process === 'edit') {
